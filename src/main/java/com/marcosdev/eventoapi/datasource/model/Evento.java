@@ -1,13 +1,14 @@
 package com.marcosdev.eventoapi.datasource.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity(name = "evento")
-public class Evento {
+@Entity
+@Table(name = "evento")
+public class Evento implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String nome;
