@@ -1,5 +1,6 @@
 package com.marcosdev.eventoapi.resource.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.marcosdev.eventoapi.datasource.model.Evento;
 
 public class EventoResource {
 
@@ -19,6 +20,12 @@ public class EventoResource {
 
     @SuppressWarnings("unsed")
     public EventoResource( ) {
+    }
+
+    public Evento eventoResourceConversor(){
+        return new Evento(getNome(),
+                getLocal(),
+                getIdResponsavel());
     }
 
     public String getNome() {

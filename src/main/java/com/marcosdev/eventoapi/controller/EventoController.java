@@ -2,32 +2,58 @@ package com.marcosdev.eventoapi.controller;
 
 import com.marcosdev.eventoapi.datasource.model.Evento;
 import com.marcosdev.eventoapi.repository.EventoRepository;
+import com.marcosdev.eventoapi.resource.model.EventoResource;
+import com.marcosdev.eventoapi.service.BuscarEventoService;
+import com.marcosdev.eventoapi.service.CadastrarEventoService;
+import com.marcosdev.eventoapi.service.ExcluirEventoService;
+import com.marcosdev.eventoapi.service.ListarEventosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/evento")
 public class EventoController {
 
     @Autowired
-    private EventoRepository eventoRepository;
+    private BuscarEventoService buscarEventoService;
 
-    @GetMapping(path = "/evento-id/{id}")
+    @Autowired
+    private ExcluirEventoService excluirEventoService;
+
+    @Autowired
+    private CadastrarEventoService cadastrarEventoService;
+
+    @Autowired
+    private ListarEventosService listarEventosService;
+
+    @GetMapping(path = "/buscar-evento/{id}")
     public ResponseEntity<Optional<Evento>> buscarEventoPorId(@PathVariable(name = "id",required = true) Long idEvento){
         return ResponseEntity
-                .ok(eventoRepository.findById(idEvento));
+                .ok(buscarEventoService.buscarEvetoPorId(idEvento));
     }
 
-    @GetMapping(path = "/lista-eventos")
+    @GetMapping(path = "/listar-evento")
     public ResponseEntity<List<Evento>> listarTodos(){
-        return ResponseEntity.ok(eventoRepository.findAll());
+        return ResponseEntity.ok(listarEventosService
+                .listarEventos());
 
     }
+
+    @PostMapping(path = "/cadastrar-evento")
+    public void criarEvento(@RequestBody EventoResource eventoResource){
+        cadastrarEventoService.cadastrarEvento(eventoResource);
+
+    }
+
+    @DeleteMapping(path = "/excluir-evento/{id}")
+    public void excluirEvento(
+            @PathVariable(name = "id",required = true) Long id){
+        excluirEventoService.excluirEvento(id);
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.marcosdev.eventoapi.datasource.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ public class Evento implements Serializable {
     private String local;
 
     @Column(name = "id_responsavel")
+    @JsonProperty(value = "id_responsavel")
     private Long idResponsavel;
 
 
